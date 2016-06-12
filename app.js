@@ -1,0 +1,15 @@
+var restify = require('restify');
+var builder = require('botbuilder');
+
+// Create bot and add dialogs
+var bot = new builder.BotConnectorBot({appid: 'a777', appSecret: '42'});
+bot.add('/', function (session) {
+    session.send('Whuff, Whuff !!!');    
+})
+
+// Setup Restify Server
+var server = restify.createServer();
+server.post('api/messages', bot.verifyBotFramework(), bot.listen());
+server.listen(process.env.p || 3978, function () {
+    console.log('%s listening to %s', server.name, server.url);
+})
